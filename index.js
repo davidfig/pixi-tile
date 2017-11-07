@@ -30,14 +30,6 @@ module.exports = class Tiles
         this.last = {}
     }
 
-    sprite()
-    {
-        const sprite = this.container.addChild(new PIXI.Sprite())
-        sprite.width = this.tileWidth
-        sprite.height = this.tileHeight
-        return sprite
-    }
-
     update()
     {
         let display = 0
@@ -68,14 +60,16 @@ module.exports = class Tiles
                             let sprite
                             if (i === this.container.children.length)
                             {
-                                sprite = this.sprite()
+                                sprite = this.container.addChild(new PIXI.Sprite(texture))
+                                sprite.width = this.tileWidth
+                                sprite.height = this.tileHeight
                             }
                             else
                             {
                                 sprite = this.container.children[i++]
+                                sprite.texture = texture
+                                sprite.visible = true
                             }
-                            sprite.texture = texture
-                            sprite.visible = true
                             sprite.position.set(xStart + x * this.tileWidth, yStart + y * this.tileHeight)
                             display++
                         }

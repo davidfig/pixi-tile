@@ -1,0 +1,17 @@
+{
+  "name": "pixi-tiles",
+  "version": "0.0.1",
+  "main": "index.js",
+  "description": "A simple tile library for use with pixi.js and pixi-viewport.",
+  "directories": {
+    "doc": "docs"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "pixi-viewport": "^0.16.2",
+    "yy-renderer": "^2.4.1"
+  },
+  "dependencies": {
+    "pixi.js": "^4.6.0"
+  }
+}

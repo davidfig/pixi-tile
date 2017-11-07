@@ -3,7 +3,7 @@ A simple scrolling multi-layer tile library for use with pixi.js and pixi-viewpo
 
 ## Simple Example
 ```js
-    const PIXI = require('pixi.js)
+    const PIXI = require('pixi.js')
     const Viewport = require('pixi-viewport')
     const Tiles = require('pixi-tiles)
 

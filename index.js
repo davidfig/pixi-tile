@@ -10,7 +10,7 @@ module.exports = class Tiles
      * @param {Viewport} viewport from pixi-viewport
      * @param {number} width of tile
      * @param {number} height of tile
-     * @param {function} tiles(x, y) should return PIXI.Texture[] where (x, y) is the coordinates in the tile map (i.e., the world coordinates divided by the tile's width/height)
+     * @param {function} tiles (x, y) should return { texture: PIXI.Texture, tint, flipX, flipY } where (x, y) is the coordinates in the tile map (i.e., the world coordinates divided by the tile's width/height)
      * @param {object} [options]
      * @param {boolean} [options.debug] add a debug panel to see sprite usage
      */

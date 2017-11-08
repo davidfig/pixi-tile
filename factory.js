@@ -19,6 +19,7 @@ module.exports = class Factory
         else
         {
             sprite = new PIXI.Sprite(texture)
+            sprite.anchor.set(0.5)
         }
         this.released.push(sprite)
         return sprite

@@ -1,5 +1,5 @@
-const PIXI = require('pixi.js')
 const Counter = require('yy-counter')
+const exists = require('exists')
 
 const Factory = require('./factory')
 
@@ -43,8 +43,8 @@ module.exports = class Tiles
         {
             if (this.last.scaleX !== container.scale.x || this.last.scaleY !== container.scale.y)
             {
-                this.columns = Math.floor(this.viewport.worldScreenWidth / this.tileWidth) + 2
-                this.rows = Math.floor(this.viewport.worldScreenHeight / this.tileHeight) + 2
+                this.columns = Math.floor(this.viewport.worldScreenWidth / this.tileWidth) + 4
+                this.rows = Math.floor(this.viewport.worldScreenHeight / this.tileHeight) + 4
             }
             this.container.removeChildren()
             this.containers.release()
@@ -62,10 +62,13 @@ module.exports = class Tiles
                     const tiles = this.tiles(xIndex + x, yIndex + y)
                     if (tiles)
                     {
-                        for (let texture of tiles)
+                        for (let tile of tiles)
                         {
-                            const sprite = this.container.addChild(this.sprites.get(texture))
-                            sprite.position.set(xStart + x * this.tileWidth, yStart + y * this.tileHeight)
+                            const sprite = this.container.addChild(this.sprites.get(tile.texture))
+                            sprite.scale.x = tile.flipX ? -1 : 1
+                            sprite.scale.y = tile.flipY ? -1 : 1
+                            sprite.tint = exists(tile.tint) ? tile.tint : 0xffffff
+                            sprite.position.set(xStart + x * this.tileWidth + this.tileWidth / 2, yStart + y * this.tileHeight + this.tileHeight / 2)
                             display++
                         }
                     }

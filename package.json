@@ -30,6 +30,7 @@
     "yy-rendersheet": "^3.2.3"
   },
   "dependencies": {
+    "exists": "^1.0.1",
     "fork-me-github": "^1.0.3",
     "pixi.js": "^4.6.0"
   },

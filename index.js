@@ -1,6 +1,8 @@
 const PIXI = require('pixi.js')
 const Counter = require('yy-counter')
 
+const Factory = require('./factory')
+
 module.exports = class Tiles
 {
     /**
@@ -22,6 +24,9 @@ module.exports = class Tiles
         this.debug = options.debug
         this.last = {}
         this.tiles = tiles
+        this.sprites = new Factory()
+        this.containers = new Factory()
+        this.cache = {}
         if (this.debug) this.counter = new Counter({ side: 'bottom-left', background: 'rgba(0,0,0,0.5)' })
     }
 
@@ -41,13 +46,15 @@ module.exports = class Tiles
                 this.columns = Math.floor(this.viewport.worldScreenWidth / this.tileWidth) + 2
                 this.rows = Math.floor(this.viewport.worldScreenHeight / this.tileHeight) + 2
             }
+            this.container.removeChildren()
+            this.containers.release()
+            this.sprites.release()
             const left = this.viewport.left
             const top = this.viewport.top
             const xStart = left - left % this.tileWidth
             const yStart = top - top % this.tileHeight
             const xIndex = xStart / this.tileWidth
             const yIndex = yStart / this.tileHeight
-            let i = 0
             for (let y = 0; y < this.rows; y++)
             {
                 for (let x = 0; x < this.columns; x++)
@@ -57,28 +64,12 @@ module.exports = class Tiles
                     {
                         for (let texture of tiles)
                         {
-                            let sprite
-                            if (i === this.container.children.length)
-                            {
-                                sprite = this.container.addChild(new PIXI.Sprite(texture))
-                                sprite.width = this.tileWidth
-                                sprite.height = this.tileHeight
-                            }
-                            else
-                            {
-                                sprite = this.container.children[i++]
-                                sprite.texture = texture
-                                sprite.visible = true
-                            }
+                            const sprite = this.container.addChild(this.sprites.get(texture))
                             sprite.position.set(xStart + x * this.tileWidth, yStart + y * this.tileHeight)
                             display++
                         }
                     }
                 }
-            }
-            for (let j = i; j < this.container.children.length; j++)
-            {
-                this.container.children[j].visible = false
             }
             this.last.x = container.x
             this.last.y = container.y
@@ -86,12 +77,7 @@ module.exports = class Tiles
             this.last.scaleY = container.scale.y
             if (this.debug)
             {
-                let count = 0
-                for (let i = 0; i < this.container.children.length; i++)
-                {
-                    count += this.container.children[i].visible ? 0 : 1
-                }
-                this.counter.log(display + ' tiles with ' + count + ' empty' + ' using ' + this.container.children.length + ' sprites')
+                this.counter.log(display + ' tiles with ' + this.sprites.length + ' empty' + ' using ' + this.container.children.length + ' sprites.' )
             }
         }
     }
